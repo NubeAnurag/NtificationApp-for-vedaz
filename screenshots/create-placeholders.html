@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Create Screenshot Placeholders</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        .placeholder { 
+            width: 400px; 
+            height: 300px; 
+            border: 2px solid #ccc; 
+            margin: 20px 0; 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            background: linear-gradient(45deg, #f0f0f0, #e0e0e0);
+            color: #666;
+            font-size: 18px;
+            text-align: center;
+        }
+        .web-interface { background: linear-gradient(45deg, #25D366, #128C7E); color: white; }
+        .android-emulator { background: linear-gradient(45deg, #3DDC84, #2E7D32); color: white; }
+        .phone-call { background: linear-gradient(45deg, #FF5722, #D32F2F); color: white; }
+        .message-notification { background: linear-gradient(45deg, #2196F3, #1976D2); color: white; }
+        button { 
+            padding: 10px 20px; 
+            margin: 10px; 
+            background: #007bff; 
+            color: white; 
+            border: none; 
+            border-radius: 5px; 
+            cursor: pointer; 
+        }
+        button:hover { background: #0056b3; }
+    </style>
+</head>
+<body>
+    <h1>📸 Screenshot Placeholders</h1>
+    <p>Click the buttons below to download placeholder images for your WhatsApp Clone project:</p>
+    
+    <div class="placeholder web-interface" id="web-interface">
+        <div>
+            <h3>📱 Web Interface</h3>
+            <p>WhatsApp Clone Messenger<br>Web Interface</p>
+        </div>
+    </div>
+    <button onclick="downloadImage('web-interface', 'web-interface.png')">Download Web Interface Screenshot</button>
+    
+    <div class="placeholder android-emulator" id="android-emulator">
+        <div>
+            <h3>🤖 Android Emulator</h3>
+            <p>React Native App<br>Running on Emulator</p>
+        </div>
+    </div>
+    <button onclick="downloadImage('android-emulator', 'android-emulator-home.png')">Download Android Emulator Screenshot</button>
+    
+    <div class="placeholder phone-call" id="phone-call">
+        <div>
+            <h3>📞 Phone Call Notification</h3>
+            <p>Incoming Call<br>Accept/Decline Options</p>
+        </div>
+    </div>
+    <button onclick="downloadImage('phone-call', 'phone-call-notification.png')">Download Phone Call Screenshot</button>
+    
+    <div class="placeholder message-notification" id="message-notification">
+        <div>
+            <h3>💬 Message Notification</h3>
+            <p>Text Message<br>Reply Options</p>
+        </div>
+    </div>
+    <button onclick="downloadImage('message-notification', 'message-notification.png')">Download Message Screenshot</button>
+    
+    <script>
+        function downloadImage(elementId, filename) {
+            const element = document.getElementById(elementId);
+            const canvas = document.createElement('canvas');
+            const ctx = canvas.getContext('2d');
+            
+            canvas.width = 400;
+            canvas.height = 300;
+            
+            // Create a temporary canvas to draw the element
+            const tempCanvas = document.createElement('canvas');
+            const tempCtx = tempCanvas.getContext('2d');
+            tempCanvas.width = 400;
+            tempCanvas.height = 300;
+            
+            // Draw the element background
+            const rect = element.getBoundingClientRect();
+            const computedStyle = window.getComputedStyle(element);
+            
+            // Create gradient background
+            const gradient = tempCtx.createLinearGradient(0, 0, 400, 300);
+            if (elementId === 'web-interface') {
+                gradient.addColorStop(0, '#25D366');
+                gradient.addColorStop(1, '#128C7E');
+            } else if (elementId === 'android-emulator') {
+                gradient.addColorStop(0, '#3DDC84');
+                gradient.addColorStop(1, '#2E7D32');
+            } else if (elementId === 'phone-call') {
+                gradient.addColorStop(0, '#FF5722');
+                gradient.addColorStop(1, '#D32F2F');
+            } else if (elementId === 'message-notification') {
+                gradient.addColorStop(0, '#2196F3');
+                gradient.addColorStop(1, '#1976D2');
+            }
+            
+            tempCtx.fillStyle = gradient;
+            tempCtx.fillRect(0, 0, 400, 300);
+            
+            // Add text
+            tempCtx.fillStyle = 'white';
+            tempCtx.font = 'bold 24px Arial';
+            tempCtx.textAlign = 'center';
+            
+            let title, subtitle;
+            if (elementId === 'web-interface') {
+                title = '📱 Web Interface';
+                subtitle = 'WhatsApp Clone Messenger\nWeb Interface';
+            } else if (elementId === 'android-emulator') {
+                title = '🤖 Android Emulator';
+                subtitle = 'React Native App\nRunning on Emulator';
+            } else if (elementId === 'phone-call') {
+                title = '📞 Phone Call Notification';
+                subtitle = 'Incoming Call\nAccept/Decline Options';
+            } else if (elementId === 'message-notification') {
+                title = '💬 Message Notification';
+                subtitle = 'Text Message\nReply Options';
+            }
+            
+            tempCtx.fillText(title, 200, 120);
+            tempCtx.font = '16px Arial';
+            subtitle.split('\n').forEach((line, index) => {
+                tempCtx.fillText(line, 200, 150 + (index * 25));
+            });
+            
+            // Draw to main canvas
+            ctx.drawImage(tempCanvas, 0, 0);
+            
+            // Download
+            const link = document.createElement('a');
+            link.download = filename;
+            link.href = canvas.toDataURL();
+            link.click();
+        }
+    </script>
+</body>
+</html> 

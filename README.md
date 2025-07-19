@@ -97,6 +97,11 @@ Imagine you want to build your own messaging app like WhatsApp. This project sho
 ![Message Notifications](screenshots/message-notification.png)
 *Text message notifications with reply options*
 
+> **📝 Note**: If screenshots are not displaying, you can:
+> 1. **Open the placeholder generator**: Open `screenshots/create-placeholders.html` in your browser
+> 2. **Download placeholder images**: Click the download buttons to generate placeholder screenshots
+> 3. **Replace with real screenshots**: Take actual screenshots of your running app and replace the placeholder files
+
 ## 🚦 Current Status
 
 ### ✅ What's Working:
