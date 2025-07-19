@@ -133,4 +133,4 @@ The only missing piece is the Firebase configuration for real push notifications
 
 ---
 
-**Built by Anurag for Vedaz Internship Assignment** 🚀 
+**Built by Anurag for Vedaz Internship Assignment** 🚀
