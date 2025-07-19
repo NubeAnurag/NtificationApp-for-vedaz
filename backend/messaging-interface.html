@@ -1,0 +1,548 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>📱 WhatsApp Clone - Message Your Friends</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #25D366, #128C7E);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 28px;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            opacity: 0.9;
+            font-size: 16px;
+        }
+
+        .friends-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 20px;
+            padding: 30px;
+        }
+
+        .friend-card {
+            background: #f8f9fa;
+            border-radius: 15px;
+            padding: 25px;
+            border: 2px solid #e9ecef;
+            transition: all 0.3s ease;
+        }
+
+        .friend-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            border-color: #25D366;
+        }
+
+        .friend-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #e9ecef;
+        }
+
+        .friend-avatar {
+            font-size: 45px;
+            margin-right: 15px;
+            background: linear-gradient(135deg, #25D366, #128C7E);
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .friend-info h3 {
+            font-size: 22px;
+            color: #2c3e50;
+            margin-bottom: 5px;
+        }
+
+        .friend-info p {
+            color: #7f8c8d;
+            font-size: 14px;
+        }
+
+        .message-section {
+            margin-bottom: 20px;
+        }
+
+        .message-section h4 {
+            color: #34495e;
+            margin-bottom: 10px;
+            font-size: 16px;
+        }
+
+        .message-input {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #e9ecef;
+            border-radius: 10px;
+            font-size: 15px;
+            margin-bottom: 10px;
+            transition: border-color 0.3s ease;
+        }
+
+        .message-input:focus {
+            outline: none;
+            border-color: #25D366;
+        }
+
+        .button-row {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            flex: 1;
+            min-width: 100px;
+            padding: 12px 15px;
+            border: none;
+            border-radius: 10px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .btn-message {
+            background: linear-gradient(135deg, #25D366, #128C7E);
+            color: white;
+        }
+
+        .btn-voice {
+            background: linear-gradient(135deg, #3498db, #2980b9);
+            color: white;
+        }
+
+        .btn-video {
+            background: linear-gradient(135deg, #e74c3c, #c0392b);
+            color: white;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
+        .btn:active {
+            transform: translateY(0);
+        }
+
+        .status {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 15px;
+            margin: 20px 30px;
+            border-left: 4px solid #25D366;
+        }
+
+        .status h3 {
+            color: #2c3e50;
+            margin-bottom: 5px;
+        }
+
+        .status p {
+            color: #7f8c8d;
+            font-size: 14px;
+        }
+
+        .quick-actions {
+            background: #f8f9fa;
+            padding: 20px 30px;
+            border-top: 2px solid #e9ecef;
+        }
+
+        .quick-actions h3 {
+            color: #2c3e50;
+            margin-bottom: 15px;
+        }
+
+        .quick-btn {
+            background: linear-gradient(135deg, #9b59b6, #8e44ad);
+            color: white;
+            padding: 15px 25px;
+            margin: 5px;
+            border: none;
+            border-radius: 10px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .quick-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
+        @media (max-width: 768px) {
+            .friends-grid {
+                grid-template-columns: 1fr;
+                padding: 15px;
+            }
+            
+            .friend-card {
+                padding: 20px;
+            }
+            
+            .button-row {
+                flex-direction: column;
+            }
+            
+            .btn {
+                min-width: auto;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>📱 WhatsApp Clone Messenger</h1>
+            <p>Send personalized messages, voice calls & video calls to Anurag's phone</p>
+        </div>
+
+        <div class="status">
+            <h3>📡 Connection Status</h3>
+            <p id="statusText">Connecting to server...</p>
+        </div>
+
+        <div class="friends-grid">
+            <!-- Manya -->
+            <div class="friend-card">
+                <div class="friend-header">
+                    <div class="friend-avatar">👩‍💻</div>
+                    <div class="friend-info">
+                        <h3>Manya</h3>
+                        <p>Tech enthusiast • Always coding</p>
+                    </div>
+                </div>
+                <div class="message-section">
+                    <h4>💬 Send Message to Manya:</h4>
+                    <input type="text" class="message-input" id="manya-message" placeholder="Type your message to Manya...">
+                    <div class="button-row">
+                        <button class="btn btn-message" onclick="sendMessage('Manya', 'manya-message')">
+                            💬 Send Message
+                        </button>
+                        <button class="btn btn-voice" onclick="sendCall('Manya', 'voice')">
+                            📞 Voice Call
+                        </button>
+                        <button class="btn btn-video" onclick="sendCall('Manya', 'video')">
+                            📹 Video Call
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Manas -->
+            <div class="friend-card">
+                <div class="friend-header">
+                    <div class="friend-avatar">🎮</div>
+                    <div class="friend-info">
+                        <h3>Manas</h3>
+                        <p>Gaming buddy • Always up for fun</p>
+                    </div>
+                </div>
+                <div class="message-section">
+                    <h4>💬 Send Message to Manas:</h4>
+                    <input type="text" class="message-input" id="manas-message" placeholder="Type your message to Manas...">
+                    <div class="button-row">
+                        <button class="btn btn-message" onclick="sendMessage('Manas', 'manas-message')">
+                            💬 Send Message
+                        </button>
+                        <button class="btn btn-voice" onclick="sendCall('Manas', 'voice')">
+                            📞 Voice Call
+                        </button>
+                        <button class="btn btn-video" onclick="sendCall('Manas', 'video')">
+                            📹 Video Call
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Aarav -->
+            <div class="friend-card">
+                <div class="friend-header">
+                    <div class="friend-avatar">📚</div>
+                    <div class="friend-info">
+                        <h3>Aarav</h3>
+                        <p>Study partner • Always learning</p>
+                    </div>
+                </div>
+                <div class="message-section">
+                    <h4>💬 Send Message to Aarav:</h4>
+                    <input type="text" class="message-input" id="aarav-message" placeholder="Type your message to Aarav...">
+                    <div class="button-row">
+                        <button class="btn btn-message" onclick="sendMessage('Aarav', 'aarav-message')">
+                            💬 Send Message
+                        </button>
+                        <button class="btn btn-voice" onclick="sendCall('Aarav', 'voice')">
+                            📞 Voice Call
+                        </button>
+                        <button class="btn btn-video" onclick="sendCall('Aarav', 'video')">
+                            📹 Video Call
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Harsh -->
+            <div class="friend-card">
+                <div class="friend-header">
+                    <div class="friend-avatar">🎬</div>
+                    <div class="friend-info">
+                        <h3>Harsh</h3>
+                        <p>Movie lover • Entertainment expert</p>
+                    </div>
+                </div>
+                <div class="message-section">
+                    <h4>💬 Send Message to Harsh:</h4>
+                    <input type="text" class="message-input" id="harsh-message" placeholder="Type your message to Harsh...">
+                    <div class="button-row">
+                        <button class="btn btn-message" onclick="sendMessage('Harsh', 'harsh-message')">
+                            💬 Send Message
+                        </button>
+                        <button class="btn btn-voice" onclick="sendCall('Harsh', 'voice')">
+                            📞 Voice Call
+                        </button>
+                        <button class="btn btn-video" onclick="sendCall('Harsh', 'video')">
+                            📹 Video Call
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Anurag -->
+            <div class="friend-card">
+                <div class="friend-header">
+                    <div class="friend-avatar">⭐</div>
+                    <div class="friend-info">
+                        <h3>Anurag (You)</h3>
+                        <p>Project creator • React Native dev</p>
+                    </div>
+                </div>
+                <div class="message-section">
+                    <h4>💬 Send Message to Yourself:</h4>
+                    <input type="text" class="message-input" id="anurag-message" placeholder="Send yourself a reminder...">
+                    <div class="button-row">
+                        <button class="btn btn-message" onclick="sendMessage('Anurag', 'anurag-message')">
+                            💬 Send Message
+                        </button>
+                        <button class="btn btn-voice" onclick="sendCall('Anurag', 'voice')">
+                            📞 Voice Call
+                        </button>
+                        <button class="btn btn-video" onclick="sendCall('Anurag', 'video')">
+                            📹 Video Call
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="quick-actions">
+            <h3>🚀 Quick Actions</h3>
+            <button class="quick-btn" onclick="sendGroupMessage()">📢 Send Group Message</button>
+            <button class="quick-btn" onclick="testAllNotifications()">🧪 Test All Notifications</button>
+            <button class="quick-btn" onclick="clearAllMessages()">🗑️ Clear All Inputs</button>
+        </div>
+    </div>
+
+    <script>
+        const SERVER_URL = 'http://192.168.29.3:3002';
+
+        // Check server connection
+        async function checkConnection() {
+            try {
+                const response = await fetch(`${SERVER_URL}/`);
+                if (response.ok) {
+                    document.getElementById('statusText').textContent = '✅ Connected to server successfully!';
+                } else {
+                    document.getElementById('statusText').textContent = '⚠️ Server responded with error';
+                }
+            } catch (error) {
+                document.getElementById('statusText').textContent = '❌ Cannot connect to server. Check if backend is running.';
+            }
+        }
+
+        // Send personalized message
+        async function sendMessage(friendName, inputId) {
+            const messageInput = document.getElementById(inputId);
+            const message = messageInput.value.trim();
+            
+            if (!message) {
+                alert(`Please enter a message for ${friendName}!`);
+                return;
+            }
+
+            try {
+                const response = await fetch(`${SERVER_URL}/send-personal-message`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        recipient: friendName,
+                        message: message,
+                        sender: 'Web Interface'
+                    })
+                });
+
+                if (response.ok) {
+                    alert(`✅ Message sent to ${friendName}: "${message}"`);
+                    messageInput.value = '';
+                } else {
+                    alert(`❌ Failed to send message to ${friendName}`);
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                alert(`❌ Error sending message to ${friendName}`);
+            }
+        }
+
+        // Send personalized call
+        async function sendCall(friendName, callType) {
+            const callTypeText = callType === 'voice' ? 'Voice Call' : 'Video Call';
+            
+            try {
+                const response = await fetch(`${SERVER_URL}/send-personal-call`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        recipient: friendName,
+                        callType: callType,
+                        caller: 'Web Interface'
+                    })
+                });
+
+                if (response.ok) {
+                    alert(`📞 ${callTypeText} initiated with ${friendName}!`);
+                } else {
+                    alert(`❌ Failed to initiate ${callTypeText} with ${friendName}`);
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                alert(`❌ Error initiating ${callTypeText} with ${friendName}`);
+            }
+        }
+
+        // Send group message
+        async function sendGroupMessage() {
+            const message = prompt('Enter group message:');
+            if (!message) return;
+
+            const friends = ['Manya', 'Manas', 'Aarav', 'Harsh', 'Anurag'];
+            
+            for (const friend of friends) {
+                try {
+                    await fetch(`${SERVER_URL}/send-personal-message`, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({
+                            recipient: friend,
+                            message: `[Group Message] ${message}`,
+                            sender: 'Web Interface'
+                        })
+                    });
+                } catch (error) {
+                    console.error(`Error sending to ${friend}:`, error);
+                }
+            }
+            
+            alert('📢 Group message sent to all friends!');
+        }
+
+        // Test all notifications
+        async function testAllNotifications() {
+            const friends = ['Manya', 'Manas', 'Aarav', 'Harsh', 'Anurag'];
+            const callTypes = ['voice', 'video'];
+            
+            for (const friend of friends) {
+                // Send test message
+                await fetch(`${SERVER_URL}/send-personal-message`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        recipient: friend,
+                        message: `Test notification for ${friend} 🧪`,
+                        sender: 'Test System'
+                    })
+                });
+                
+                // Send test call
+                const callType = callTypes[Math.floor(Math.random() * callTypes.length)];
+                await fetch(`${SERVER_URL}/send-personal-call`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        recipient: friend,
+                        callType: callType,
+                        caller: 'Test System'
+                    })
+                });
+                
+                // Small delay between requests
+                await new Promise(resolve => setTimeout(resolve, 500));
+            }
+            
+            alert('🧪 All test notifications sent!');
+        }
+
+        // Clear all message inputs
+        function clearAllMessages() {
+            const inputs = ['manya-message', 'manas-message', 'aarav-message', 'harsh-message', 'anurag-message'];
+            inputs.forEach(id => {
+                document.getElementById(id).value = '';
+            });
+            alert('🗑️ All message inputs cleared!');
+        }
+
+        // Check connection on page load
+        window.onload = function() {
+            checkConnection();
+        };
+    </script>
+</body>
+</html> 
